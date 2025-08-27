@@ -28,9 +28,11 @@ addBookToLibrary("Hary Potter and the Prisoner of Azkaban", "J.K. Rowling", 400,
 addBookToLibrary("Hary Potter and the Goblet of Fire", "J.K. Rowling", 600, "Read")
 
 const container = document.querySelector(".container")
-let dialog_button = document.querySelector("#dialog_button")
+let side_bar_button = document.querySelector("#side_button")
+// side_bar_button.setAttribute("clicked", false);
 
-// Creation of the form
+let side_bar = document.createElement("div");
+side_bar.classList.add("side_bar")
 let title_side_bar = document.createElement("h1")
 title_side_bar.textContent="Fill in the Form"
 
@@ -58,58 +60,28 @@ read_checkbox.id = "read_field";
 let label = document.createElement("label");
 label.textContent = "Has been read ?";
 label.htmlfor = "read_field";
-
 read_check_div.appendChild(label);
 read_check_div.appendChild(read_checkbox);
 
 form.appendChild(read_check_div);
 
-// Creation button Cancel
-const cancel = document.createElement("button");
-cancel.value = "cancel";
-cancel.formMethod ="dialog";
-cancel.textContent = "Cancel";
-form.appendChild(cancel);
 
-// Creation button submit
+side_bar.appendChild(form);
+
 const submit = document.createElement("button");
+submit.type = "submit";
 submit.textContent="Submit";
-submit.value = "default";
+side_bar.appendChild(submit)
 
-form.appendChild(submit)
-
-// Creation dialog
-let dialog = document.createElement("dialog");
-dialog.setAttribute("closedby", "any");
-dialog.appendChild(form);
-
-// Display the dialog
-dialog_button.addEventListener("click", function() {
-    dialog.showModal();
-})
-
-// CLose the dialog
-dialog.addEventListener("close", function(e) {
-    if (dialog.returnValue === "submitted"){
-    const last_book = myLibrary[myLibrary.length-1];
-        displayBook(last_book);
+side_bar_button.addEventListener("click", function() {
+    if (this.checked == true) {
+        container.appendChild(side_bar);
+    } else {
+        side_bar.remove();
     }
-}    
-)
-
-submit.addEventListener("click", function(event) {
-    event.preventDefault();
-    let title_value = document.querySelector("#title_field").value;
-    let author_value = document.querySelector("#author_field").value;
-    let page_value = document.querySelector("#page_field").value;
-    let read_value = document.querySelector("#read_field").checked == true ? "Read" : "Unread" ;
-
-    addBookToLibrary(title_value, author_value, page_value, read_value);
-    dialog.close("submitted")
-    form.reset()
+    
 })
 
-container.appendChild(dialog)
 
 const list = document.createElement("div");
 list.classList.add("list")
@@ -184,3 +156,12 @@ container.appendChild(list);
 
 console.log(myLibrary)
 
+submit.addEventListener('click', function() {
+    let title_value = document.querySelector("#title_field").value;
+    let author_value = document.querySelector("#author_field").value;
+    let page_value = document.querySelector("#page_field").value;
+    let read_value = document.querySelector("#read_field").checked == true ? "Read" : "Unread" ;
+    
+    addBookToLibrary(title_value, author_value, page_value, read_value)
+    displayBook(myLibrary.reverse()[0]);
+})
