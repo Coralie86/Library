@@ -1,18 +1,32 @@
 const myLibrary = []
 
-function Book(title, author, page_nb, read) {
-    if (!new.target) {
-        throw Error('You need to use new')
+// function Book(title, author, page_nb, read) {
+//     if (!new.target) {
+//         throw Error('You need to use new')
+//     }
+
+//     this.id = crypto.randomUUID()
+//     this.title = title;
+//     this.author = author;
+//     this.page_nb = page_nb;
+//     this.read = read;
+
+//     this.info = function() {
+//         return this.title + " by " + this.author + ", " + this.page_nb + " pages, " + this.read
+//     }
+// }
+
+class Book {
+    constructor(title, author, page_nb, read) {
+        this.id = crypto.randomUUID()
+        this.title = title;
+        this.author = author;
+        this.page_nb = page_nb;
+        this.read = read;
     }
 
-    this.id = crypto.randomUUID()
-    this.title = title;
-    this.author = author;
-    this.page_nb = page_nb;
-    this.read = read;
-
-    this.info = function() {
-        return this.title + " by " + this.author + ", " + this.page_nb + " pages, " + this.read
+    info() {
+        return this.title + " by " + this.author + ", " + this.page_nb + " pages, " + this.read;
     }
 }
 
